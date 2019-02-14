@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Kurs_WPF_MVVM_20190214.Model
 {
+    [Table("Uzytkownicy")]
     public class Uzytkownik
     {
-        public string Id { get; set; }
+        
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
+        public int Id { get; set; }
         public string Imie { get; set; }
         public string Nazwisko { get; set; }
     }

@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:Kurs_WPF_MVVM_20190214.View"
         mc:Ignorable="d"
         xmlns:ViewModel="clr-namespace:Kurs_WPF_MVVM_20190214.ViewModel"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:s="clr-namespace:System;assembly=mscorlib"
         Title="MainWindow" Height="500" Width="500">
 
     <Window.DataContext>
@@ -45,6 +47,115 @@
 
     </Window.Resources>
     <Grid>
-        
+        <TextBlock Margin="10, 10, 0, 0" HorizontalAlignment="Left"
+                   VerticalAlignment="Top" Text="Liczba zadań: ">
+            <Run Text="{Binding Path=ListaZadan.Count, Mode=OneWay}" />
+        </TextBlock>
+        <ListBox x:Name="lbListaZadan" Margin="10,35,10,200"
+                 ItemsSource="{Binding Path=ListaZadan}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical" Margin="3">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding Path=Opis, Mode=OneWay}" FontSize="20" 
+                                       Foreground="{Binding CzyZrealizowane, 
+                                        Converter={StaticResource czyZrealizowaneToBrush}}"
+                                       TextDecorations="{Binding Path=CzyZrealizowane, Mode=OneWay,
+                                        Converter={StaticResource czyZrealizowaneToTextDecoration}}"
+                                       />
+                            <Button Content="Zrealizowane" Command="{Binding Path=OznaczJakoZrealizowane}"
+                                    Style="{StaticResource stylPrzycisku}"
+                                    Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled,
+                                    Mode=OneWay,Converter={StaticResource boolToVisibility}}"
+                                    />
+                            <Button Content="Niezrealizowane" Command="{Binding Path=OznaczJakoNiezrealizowane}"
+                                    Style="{StaticResource stylPrzycisku}"
+                                    Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled,
+                                    Mode=OneWay,Converter={StaticResource boolToVisibility}}"
+                                    />
+                        </StackPanel>
+                        <TextBlock>
+                            Priorytet: <Run Text="{Binding Path=Priorytet, Mode=OneWay, 
+                                Converter={StaticResource priorytetToString}}"
+                                            Foreground="{Binding Path=Priorytet, Mode=OneWay,
+                                Converter={StaticResource priorytetToBrush}}" />,
+                            
+                            Termin: <Run Text="{Binding Path=PlanowanyTerminRealizacji, Mode=OneWay,
+                                StringFormat={}{0:dd MMMM yyyy}, ConverterCulture=pl-PL}" 
+                                         Foreground="{Binding Path=CzyZadaniePozostajeNieZrealizowanePoZadanymTerminie,
+                                Mode=OneWay, Converter={StaticResource czyPoTerminieToBrush}}"
+                                         />
+                            Utworzone: <Run Text="{Binding Path=DataUtworzenia, Mode=OneWay,
+                                StringFormat={}{0:dd MMMM yyyy}, ConverterCulture=pl-PL}" />
+                        </TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Control.Margin" Value="3" />
+                    <Setter Property="Control.BorderBrush" Value="Black" />
+                    <Setter Property="Control.BorderThickness" Value="1" />
+                    <Style.Triggers>
+                        <Trigger Property="Control.IsMouseOver" Value="True">
+                            <Setter Property="Control.Background" Value="LightGray" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+        <Button Content="Usun zadanie"
+                HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                Margin="10,0,0,165" Width="100" Height="25"
+                Style="{StaticResource stylPrzycisku}"
+                Command="{Binding Path=UsunZadanie}"
+                CommandParameter="{Binding ElementName=lbListaZadan, Path=SelectedIndex}" />
+
+        <Button Content="Sortuj wg priorytetow"
+                HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                Margin="120, 0, 0, 165" Width="130" Height="25"
+                Style="{StaticResource stylPrzycisku}"
+                Command="{Binding Path=SortujZadania}" CommandParameter="True" />
+
+        <Button Content="Sortuj wg terminow"
+                HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                Margin="260, 0, 0, 165" Width="120" Height="25"
+                Style="{StaticResource stylPrzycisku}"
+                Command="{Binding Path=SortujZadania}" CommandParameter="False" />
+
+        <GroupBox Header="Nowe zadanie" Margin="10, 0, 10, 10" MinWidth="420" Height="140" VerticalAlignment="Bottom">
+            <Grid>
+                <Label Content="Opis:" Margin="10, 5, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <TextBox x:Name="tbOpis" Height="23" Margin="10, 30, 10, 0" VerticalAlignment="Top" />
+                <Label Content="Priorytet:" Margin="10, 60, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <ComboBox x:Name="cbPriorytet" Margin="10, 85, 0, 0" Width="120" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <ComboBoxItem>Mniej wazne</ComboBoxItem>
+                    <ComboBoxItem IsSelected="True">Wazne</ComboBoxItem>
+                    <ComboBoxItem>Krytyczne</ComboBoxItem>
+                </ComboBox>
+                <Label Content="Termin realizacji:" Margin="160, 60, 0, 0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <DatePicker x:Name="dpTerminRealizacji" Margin="160, 85, 0, 0"
+                  HorizontalAlignment="Left" VerticalAlignment="Top"
+                       SelectedDate="{x:Static s:DateTime.Now}" />
+                <Button Content="Dodaj zadanie" Margin="0, 83, 9.8, 0"
+                        HorizontalAlignment="Right" VerticalAlignment="Top"
+                        Width="100" Height="25"
+                        Style="{StaticResource stylPrzycisku}"
+                        Command="{Binding Path=DodajZadanie}">
+                    <Button.CommandParameter>
+                        <MultiBinding Converter="{StaticResource tworzZadanie}">
+                            <Binding ElementName="tbOpis" Path="Text" />
+                            <Binding ElementName="dpTerminRealizacji" Path="SelectedDate" />
+                            <Binding ElementName="cbPriorytet" Path="Text" />
+                        </MultiBinding>
+                    </Button.CommandParameter>
+                </Button>
+            </Grid>
+        </GroupBox>
     </Grid>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closed">
+            <i:InvokeCommandAction Command="{Binding Zapisz}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 </Window>

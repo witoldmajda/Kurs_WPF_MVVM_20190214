@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Kurs_WPF_MVVM_20190214.Model
 {
+    [Table("Zadania")]
+
     public class Zadanie
     {
 
@@ -19,15 +23,24 @@ namespace Kurs_WPF_MVVM_20190214.Model
             PlanowanyTerminRealizacji = planowanyTerminRealizacji;
             Priorytet = priorytet;
             CzyZrealizowane = czyZrealizowane;
+            Uzytkownik = new Uzytkownik { Imie = "Jan", Nazwisko = "Nazwisko" };
         }
 
+        public Zadanie ()
+        {
+
+        }
+
+        
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key]
         public int Id { get; set; }
         public string Opis { get; private set; }
         public DateTime DataUtworzenia { get; private set; }
         public DateTime PlanowanyTerminRealizacji { get; private set; }
         public PriorytetZadania Priorytet { get; private set; }
         public bool CzyZrealizowane { get; set; }
-        public Uzytkownik uzytkownik { get; set; }
+        public Uzytkownik Uzytkownik { get; set; }
 
         public override string ToString()
         {
