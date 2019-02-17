@@ -78,6 +78,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Dane\DbUzytkownicyUslugi.cs" />
+    <Compile Include="Dane\DbZadaniaUslugi.cs" />
+    <Compile Include="Interfejsy\InterfaceUzytkownicy.cs" />
+    <Compile Include="Interfejsy\InterfaceZadania.cs" />
+    <Compile Include="Model\BaseModel.cs" />
+    <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\Model1.cs" />
     <Compile Include="View\Konwertery.cs" />
     <Compile Include="ViewModel\MainWindowViewModel.cs" />

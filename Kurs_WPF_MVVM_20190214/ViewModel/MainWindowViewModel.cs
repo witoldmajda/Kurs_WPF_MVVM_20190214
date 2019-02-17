@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Kurs_WPF_MVVM_20190214.Model;
 
 namespace Kurs_WPF_MVVM_20190214.ViewModel
 {
@@ -16,11 +17,15 @@ namespace Kurs_WPF_MVVM_20190214.ViewModel
 
         public ObservableCollection<ZadanieViewModel> ListaZadan { get; } = new ObservableCollection<ZadanieViewModel>();
 
-        private ICommand dodajZadanie;
+        
 
-        public MainWindowViewModel()
+        private ICommand dodajZadanie;
+        //public  ZadanieViewModel zadanie2;
+        //zadanie2 = new ZadanieViewModel { Opis = "Picie", DataUtworzenia = DateTime.Now, PlanowanyTerminRealizacji = DateTime.Now.AddDays(3), Priorytet = Model.Zadanie.PriorytetZadania.Krytyczne, CzyZrealizowane = false };
+
+    public MainWindowViewModel()
         {
-            ListaZadan.CollectionChanged += ListaZadan_CollectionChanged;
+            ListaZadan.CollectionChanged += ListaZadan_CollectionChanged;           
             
         }
 
@@ -64,6 +69,7 @@ namespace Kurs_WPF_MVVM_20190214.ViewModel
                     dodajZadanie = new RelayCommand(
                         o =>
                         {
+                           
                             ZadanieViewModel zadanie = o as ZadanieViewModel;
                             if (zadanie != null)
                             {
