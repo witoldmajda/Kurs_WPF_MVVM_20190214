@@ -6,34 +6,53 @@ using System.Text;
 using System.Threading.Tasks;
 using Kurs_WPF_MVVM_20190214.Interfejsy;
 using Kurs_WPF_MVVM_20190214.Model;
+using Kurs_WPF_MVVM_20190214.ViewModel;
 
 namespace Kurs_WPF_MVVM_20190214.Dane
 {
     public class DbZadaniaUslugi : InterfaceZadania
     {
-        public void Add(Zadanie zadanie)
+        private readonly Model1 context;
+
+        public DbZadaniaUslugi()
         {
-            throw new NotImplementedException();
+            this.context = new Model1();
+            context.Database.Log = Console.WriteLine;
         }
 
-        public ObservableCollection<Zadanie> Get()
+        public void Add(Zadanie zadanie)
         {
-            throw new NotImplementedException();
+            context.Zadania.Add(zadanie);
+
+            context.SaveChanges();
+        }
+
+        public ICollection<Zadanie> Get()
+        {
+            return context.Zadania.ToList();
         }
 
         public Zadanie Get(int id)
         {
-            throw new NotImplementedException();
+            var zadanie = context.Zadania.Single(z => z.Id == id);
+
+            return zadanie;
         }
 
         public void Remove(int id)
         {
-            throw new NotImplementedException();
+            var zadanie = Get(id);
+
+            context.Zadania.Remove(zadanie);
+
+            context.SaveChanges();
         }
 
         public void Update(Zadanie zadanie)
         {
-            throw new NotImplementedException();
+            context.Entry(zadanie).State = System.Data.Entity.EntityState.Modified; // zmieniamy stan produktu w nowym kontekście na Modified aby context poznał przekazany element
+
+            context.SaveChanges();
         }
     }
 }

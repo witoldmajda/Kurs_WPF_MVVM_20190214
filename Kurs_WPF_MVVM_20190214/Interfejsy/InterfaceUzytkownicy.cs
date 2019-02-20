@@ -16,7 +16,7 @@ namespace Kurs_WPF_MVVM_20190214.Interfejsy
 
         void Remove(int id);
 
-        ObservableCollection<Uzytkownik> Get();
+        ICollection<Uzytkownik> Get();
 
         Uzytkownik Get(int id);
 

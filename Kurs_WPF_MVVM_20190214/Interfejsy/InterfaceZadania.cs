@@ -16,7 +16,7 @@ namespace Kurs_WPF_MVVM_20190214.Interfejsy
 
         void Remove(int id);
 
-        ObservableCollection<Zadanie> Get();
+        ICollection<Zadanie> Get();
 
         Zadanie Get(int id);
 

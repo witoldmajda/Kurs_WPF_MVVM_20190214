@@ -14,7 +14,7 @@ namespace Kurs_WPF_MVVM_20190214.Dane
     {
         private readonly Model1 context;
 
-        public DbUzytkownicyUslugi(Model1 context)
+        public DbUzytkownicyUslugi()
         {
             this.context = new Model1();
             //umożliwia śledzenie zapytań do bazy danych
@@ -28,7 +28,7 @@ namespace Kurs_WPF_MVVM_20190214.Dane
             context.SaveChanges();
         }
 
-        public ObservableCollection<Uzytkownik> Get()
+        public ICollection<Uzytkownik> Get()
         {
             return context.Uzytkownicy.ToList();
         }
