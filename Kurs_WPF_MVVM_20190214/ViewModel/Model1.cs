@@ -14,7 +14,7 @@ namespace Kurs_WPF_MVVM_20190214.ViewModel
         // If you wish to target a different database and/or database provider, modify the 'Model1' 
         // connection string in the application configuration file.
         public Model1()
-            : base("name=Model1")
+            : base("name=Model1") //wywo³ujemy konstr bazowy z argumentem jako nazwa w pliku config.
         {
         }
 
@@ -22,6 +22,7 @@ namespace Kurs_WPF_MVVM_20190214.ViewModel
         // on configuring and using a Code First model, see http://go.microsoft.com/fwlink/?LinkId=390109.
 
          public virtual DbSet<Zadanie> Zadania { get; set; }
+         public virtual DbSet<Uzytkownik> Uzytkownicy { get; set; }
     }
 
     //public class MyEntity
