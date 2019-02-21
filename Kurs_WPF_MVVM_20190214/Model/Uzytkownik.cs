@@ -13,7 +13,7 @@ namespace Kurs_WPF_MVVM_20190214.Model
     {
         public Uzytkownik(int id, string imie, string nazwisko)
         {
-            //Id = id;
+            //Id = 1;
             Imie = "Witek";
             Nazwisko = "Majda";
         }

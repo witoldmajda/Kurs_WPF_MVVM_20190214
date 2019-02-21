@@ -23,7 +23,7 @@ namespace Kurs_WPF_MVVM_20190214.Model
             PlanowanyTerminRealizacji = planowanyTerminRealizacji;
             Priorytet = priorytet;
             CzyZrealizowane = czyZrealizowane;
-            Uzytkownik = new Uzytkownik { Imie = "Jan", Nazwisko = "Nazwisko" };
+            Uzytkownik = new Uzytkownik {Imie = "Jan", Nazwisko = "Nazwisko" };
         }
 
         public Zadanie ()

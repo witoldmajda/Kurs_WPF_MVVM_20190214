@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Kurs_WPF_MVVM_20190214.Dane;
+using Kurs_WPF_MVVM_20190214.Interfejsy;
 using Kurs_WPF_MVVM_20190214.Model;
 
 namespace Kurs_WPF_MVVM_20190214.ViewModel
@@ -15,7 +17,7 @@ namespace Kurs_WPF_MVVM_20190214.ViewModel
         //przechowywanie dwóch kolekcji
         //private Model.Zadania model;
 
-        public ObservableCollection<ZadanieViewModel> ListaZadan { get; } = new ObservableCollection<ZadanieViewModel>();
+        public ObservableCollection<ZadanieViewModel> ListaZadan { get; set; } = new ObservableCollection<ZadanieViewModel>();
 
         
 
@@ -24,9 +26,21 @@ namespace Kurs_WPF_MVVM_20190214.ViewModel
         //zadanie2 = new ZadanieViewModel { Opis = "Picie", DataUtworzenia = DateTime.Now, PlanowanyTerminRealizacji = DateTime.Now.AddDays(3), Priorytet = Model.Zadanie.PriorytetZadania.Krytyczne, CzyZrealizowane = false };
 
     public MainWindowViewModel()
+            : this(new DbZadaniaUslugi())
         {
-            ListaZadan.CollectionChanged += ListaZadan_CollectionChanged;           
-            
+            Load();
+            ListaZadan.CollectionChanged += ListaZadan_CollectionChanged;                       
+        }
+
+        private void Load()
+        {
+            //ListaZadan =  dbZadaniaUslugi.Get();
+        }
+
+        private readonly InterfaceZadania dbZadaniaUslugi;
+        public MainWindowViewModel(InterfaceZadania dbZadaniaUslugi)
+        {
+            this.dbZadaniaUslugi = dbZadaniaUslugi;
         }
 
         private void ListaZadan_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

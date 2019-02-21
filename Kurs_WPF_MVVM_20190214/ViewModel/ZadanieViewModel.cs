@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Kurs_WPF_MVVM_20190214.Dane;
+using Kurs_WPF_MVVM_20190214.Interfejsy;
+using Kurs_WPF_MVVM_20190214.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -8,9 +11,34 @@ using System.Windows.Input;
 
 namespace Kurs_WPF_MVVM_20190214.ViewModel
 {
-    public class ZadanieViewModel : INotifyPropertyChanged
+    public class ZadanieViewModel : BaseViewModel
     {
+
+        private ICollection<Zadanie> _listaZadan;
+
+        public ICollection<Zadanie> ListaZadan
+        {
+            get { return _listaZadan; }
+            set
+            {
+                _listaZadan = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        //private void Load()
+        //{
+        //    ListaZadan = dbZadaniaUslugi.Get();
+        //}
+
         private Model.Zadanie model;
+
+        //public ZadanieViewModel()
+        //    :this(new DbZadaniaUslugi())
+        //{
+        //    Load();
+        //}
 
         public ZadanieViewModel(string opis, DateTime dataUtworzenia, DateTime planowanyTerminRealizacji, Model.Zadanie.PriorytetZadania priorytetZadania, bool czyZrealizowane)
         {
@@ -21,6 +49,11 @@ namespace Kurs_WPF_MVVM_20190214.ViewModel
         {
             this.model = zadanie;
         }
+
+        //public ZadanieViewModel(InterfaceZadania dbZadaniaUslugi)
+        //{
+        //    this.dbZadaniaUslugi = dbZadaniaUslugi;
+        //}
 
         public string Opis
         {
@@ -72,16 +105,16 @@ namespace Kurs_WPF_MVVM_20190214.ViewModel
             return model;
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        //public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnPropertyChanged(params string[] nazwyWlasnosci)
-        {
-            if (PropertyChanged != null)
-            {
-                foreach (string nazwaWlasnosci in nazwyWlasnosci)
-                    PropertyChanged(this, new PropertyChangedEventArgs(nazwaWlasnosci));
-            }
-        }
+        //private void OnPropertyChanged(params string[] nazwyWlasnosci)
+        //{
+        //    if (PropertyChanged != null)
+        //    {
+        //        foreach (string nazwaWlasnosci in nazwyWlasnosci)
+        //            PropertyChanged(this, new PropertyChangedEventArgs(nazwaWlasnosci));
+        //    }
+        //}
 
         ICommand oznaczJakoZrealizowane;
 
@@ -94,7 +127,8 @@ namespace Kurs_WPF_MVVM_20190214.ViewModel
                         o =>
                         {
                             model.CzyZrealizowane = true;
-                            OnPropertyChanged(nameof(CzyZrealizowane), nameof(CzyZadaniePozostajeNieZrealizowanePoZadanymTerminie));
+                            //OnPropertyChanged(nameof(CzyZrealizowane), nameof(CzyZadaniePozostajeNieZrealizowanePoZadanymTerminie));
+                            OnPropertyChanged(nameof(CzyZrealizowane));
                         },
                         o =>
                         {
@@ -106,6 +140,7 @@ namespace Kurs_WPF_MVVM_20190214.ViewModel
         }
 
         ICommand oznaczJakoNierealizowane = null;
+        //private readonly InterfaceZadania dbZadaniaUslugi;
 
         public ICommand OznaczJakoNiezrealizowane
         {
@@ -116,7 +151,8 @@ namespace Kurs_WPF_MVVM_20190214.ViewModel
                         o =>
                         {
                             model.CzyZrealizowane = false;
-                            OnPropertyChanged(nameof(CzyZrealizowane), nameof(CzyZadaniePozostajeNieZrealizowanePoZadanymTerminie));
+                            //OnPropertyChanged(nameof(CzyZrealizowane), nameof(CzyZadaniePozostajeNieZrealizowanePoZadanymTerminie));
+                            OnPropertyChanged(nameof(CzyZrealizowane));
                         },
                         o =>
                         {
